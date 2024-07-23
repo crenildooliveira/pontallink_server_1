@@ -1,5 +1,6 @@
 package com.pontallink_server.pontallink.entities;
 
+import com.pontallink_server.pontallink.dtos.UserCreateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -40,6 +41,15 @@ public class User implements UserDetails {
 
     @Column(name = "active", nullable = false)
     private Boolean active;
+
+    public User(UserCreateDTO userCreateDTO){
+        this.name = userCreateDTO.name();
+        this.login = userCreateDTO.login();
+        this.bio = userCreateDTO.bio();
+        this.condominium = userCreateDTO.condominium();
+        this.password = "1234";
+        this.active = false;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

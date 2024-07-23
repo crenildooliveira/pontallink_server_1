@@ -1,10 +1,11 @@
 package com.pontallink_server.pontallink.controllers;
 
+import com.pontallink_server.pontallink.dtos.UserCreateDTO;
+import com.pontallink_server.pontallink.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pontallink_server.pontallink.dtos.UserProfileDTO;
 import com.pontallink_server.pontallink.infra.security.TokenService;
@@ -22,10 +23,14 @@ public class UserController {
 
 	@GetMapping("/me")
 	public ResponseEntity<UserProfileDTO> getUserProfile() {
-
 		var currentSubject = tokenService.getSubjectCurrentToken();
 		var userProfile = userService.getUserProfile(currentSubject);
 		return ResponseEntity.ok(userProfile);
+	}
 
+	@PostMapping
+	public ResponseEntity<UserProfileDTO> createUser(@RequestBody UserCreateDTO userCreateDTO) {
+		UserProfileDTO user = userService.createUser(userCreateDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(user);
 	}
 }

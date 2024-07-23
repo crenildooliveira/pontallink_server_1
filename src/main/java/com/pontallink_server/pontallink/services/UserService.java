@@ -1,5 +1,6 @@
 package com.pontallink_server.pontallink.services;
 
+import com.pontallink_server.pontallink.dtos.UserCreateDTO;
 import com.pontallink_server.pontallink.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,5 +21,10 @@ public class UserService {
 
     public UserProfileDTO getUserProfile(String username) throws EntityNotFoundException {
         return new UserProfileDTO((User) repository.findByLogin(username));
+    }
+
+    public UserProfileDTO createUser(UserCreateDTO userCreateDTO) throws EntityNotFoundException {
+        User user = repository.save(new User(userCreateDTO));
+        return new UserProfileDTO(user);
     }
 }
